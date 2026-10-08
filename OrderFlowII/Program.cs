@@ -16,7 +16,7 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        // 1. ????? Serilog ???????
+        
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
             .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -34,19 +34,19 @@ public class Program
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // 2. ??????? Serilog ????? ??????? ???????
+            
             builder.Host.UseSerilog();
 
-            // 3. ??? ????? ??????? ??????? ???????
+            
             builder.Services.AddApplicationServices();
             builder.Services.AddInfrastructureServices(builder.Configuration);
 
-            // 4. ????? ??? Health Checks ???? SQL Server
+            
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
             builder.Services.AddHealthChecks()
                 .AddSqlServer(connectionString, name: "sql_server", tags: new[] { "db", "ready" });
 
-            // 5. ????? ??? HealthCheck Publisher
+            
             builder.Services.Configure<HealthCheckPublisherOptions>(options =>
             {
                 options.Delay = TimeSpan.FromSeconds(5);
@@ -54,10 +54,10 @@ public class Program
             });
             builder.Services.AddSingleton<IHealthCheckPublisher, MetricsHealthCheckPublisher>();
 
-            // 6. ????? ???? ???????? ????? ????????
+            
             builder.Services.AddSingleton<OrderMetrics>();
 
-            // 7. ????? OpenTelemetry (Metrics & Tracing)
+            //  OpenTelemetry (Metrics & Tracing)
             const string serviceName = "OrderFlow.Api";
 
             builder.Services.AddOpenTelemetry()
@@ -78,11 +78,11 @@ public class Program
                         .AddHttpClientInstrumentation()
                         .AddEntityFrameworkCoreInstrumentation(options =>
                         {
-                            options.SetDbStatementForText = true; // ????? ?? ??????? SQL ?? ??? Trace
+                            options.SetDbStatementForText = true; 
                         })
                         .AddOtlpExporter(opt =>
                         {
-                            opt.Endpoint = new Uri("http://localhost:5317"); // ???? Jaeger OTLP
+                            opt.Endpoint = new Uri("http://localhost:5317"); 
                         });
                 });
 
@@ -93,7 +93,7 @@ public class Program
 
             var app = builder.Build();
 
-            // 9. ????? ???? ?? ??? HTTP ??? Serilog
+            
             app.UseSerilogRequestLogging();
 
             if (app.Environment.IsDevelopment())
@@ -105,7 +105,7 @@ public class Program
             app.UseHttpsRedirection();
             app.UseAuthorization();
 
-            // 10. ???? ??????? ??? Health Checks ???? Prometheus
+            
             app.MapHealthChecks("/health");
             app.MapPrometheusScrapingEndpoint();
 
