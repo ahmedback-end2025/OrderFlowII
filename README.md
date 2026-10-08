@@ -92,9 +92,9 @@ The Grafana dashboard combines all three signals on one screen:
 - **HTTP Request Duration** (p95 and p99)
 - **Live Structured Logs** (Loki)
 
-| Healthy | SQL Server down |
-|---|---|
-| ![Dashboard while healthy](docs/images/dashboard-healthy.png) | ![Dashboard while SQL Server is down](docs/images/dashboard-sql-down.png) |
+| Under load, healthy | SQL Server down | After restart |
+|---|---|---|
+| ![Dashboard under load while healthy](docs/images/dashboard-healthy.png) | ![Dashboard while SQL Server is down](docs/images/dashboard-sql-down.png) | ![Dashboard after SQL Server was restarted](docs/images/dashboard-recovered.png) |
 
 ### Ports
 
@@ -190,7 +190,7 @@ Single run on a local machine, about 2 minutes, up to 30 virtual users. Treat th
 
 ### What the run showed
 
-- The **health panel** turned red while SQL Server was down and returned to green after the restart.
+- The **health panel** turned red while SQL Server was down and returned to green after the restart. Latency took a little longer to settle than the health status did.
 - **Failures were slow, not fast.** Successful requests had a p95 of 1.27 s, but the overall p95 was 16.68 s. The failing requests most likely waited on database connection timeouts before giving up.
 - The **latency panel flattens at 10 s**, which is the top histogram bucket. The real worst case measured by k6 was 18.78 s, so read the flat line as "10 s or more".
 
