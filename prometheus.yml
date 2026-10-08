@@ -1,0 +1,9 @@
+﻿global:
+  scrape_interval: 5s     # سحب المقاييس كل 5 ثوانٍ لتحديث حي وسريع
+  evaluation_interval: 5s
+
+scrape_configs:
+  - job_name: 'orderflow-api'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['host.docker.internal:5195'] # الوصول إلى تطبيق الدوت نت المشغل على جهازك
