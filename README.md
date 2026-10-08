@@ -94,7 +94,7 @@ The Grafana dashboard combines all three signals on one screen:
 
 | Healthy | SQL Server down |
 |---|---|
-| ![Dashboard while healthy](docs/images/dashboard-healthy.png) | ![Dashboard while SQL Server is down](docs/images/dashboard-sql-down.png) |
+| ![Dashboard while healthy](docs/dashboard-healthy.png) | ![Dashboard while SQL Server is down](docs/dashboard-sql-down.png) |
 
 ### Ports
 
@@ -186,7 +186,7 @@ Single run on a local machine, about 2 minutes, up to 30 virtual users. Treat th
 | p95 latency, successful requests only | 1.27 s |
 | Slowest request | 18.78 s |
 
-![k6 summary](docs/images/k6-failure-summary.png)
+![k6 summary](docs/k6-failure-summary.png)
 
 ### What the run showed
 
