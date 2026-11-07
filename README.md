@@ -92,9 +92,9 @@ The Grafana dashboard combines all three signals on one screen:
 - **HTTP Request Duration** (p95 and p99)
 - **Live Structured Logs** (Loki)
 
-| Healthy | SQL Server down |
-|---|---|
-| ![Dashboard while healthy](docs/images/dashboard-healthy.png) | ![Dashboard while SQL Server is down](docs/images/dashboard-sql-down.png) |
+| Under load, healthy | SQL Server down | After restart |
+|---|---|---|
+| ![Dashboard under load while healthy](docs/images/dashboard-healthy.png) | ![Dashboard while SQL Server is down](docs/images/dashboard-sql-down.png) | ![Dashboard after SQL Server was restarted](docs/images/dashboard-recovered.png) |
 
 ### Ports
 
@@ -204,4 +204,4 @@ Single run on a local machine, about 2 minutes, up to 30 virtual users. Treat th
 
 ## Author
 
-Built by **Ahmed**. [LinkedIn](https://www.linkedin.com/in/your-profile) · [GitHub](https://github.com/your-username)
+Built by **Ahmed**. [LinkedIn](https://www.linkedin.com/in/ahmed-saeed-80750a330/?isSelfProfile=true) · [GitHub](https://github.com/ahmedback-end2025/)
