@@ -17,13 +17,6 @@ namespace OrderFlowII.IntegrationTests
 
         public HttpClient client { get; set; } = null;
 
-        public async Task DisposeAsync()
-        {
-            await _sqlServer.DisposeAsync();
-            await factory.DisposeAsync();
-            client.Dispose();
-
-        }
 
         public async Task InitializeAsync()
         {
@@ -36,5 +29,13 @@ namespace OrderFlowII.IntegrationTests
             await db.Database.MigrateAsync();
 
         }
+        public async Task DisposeAsync()
+        {
+            await _sqlServer.DisposeAsync();
+            await factory.DisposeAsync();
+            client.Dispose();
+
+        }
+
     }
 }
