@@ -59,7 +59,9 @@ namespace OrderFlowII.IntegrationTests
             Assert.Equal("Pending", order.Status);
             Assert.Equal(1, order.Items.Count);
             Assert.Contains(order.Items,
-                i => i.Name == "Mouse" && i.Price == 300m && i.Quantity == 2);
+     i => i.Name == "Laptop" &&
+          i.Price == 25000m &&
+          i.Quantity == 1);
 
 
 
@@ -71,7 +73,7 @@ namespace OrderFlowII.IntegrationTests
         {
             var request = new
             {
-                name = "Ahmed",
+                CustomerName = "Ahmed",
                 Items = new[]
                 {
                       new OrderItemResponse("Keyboard", 100m, 2),
@@ -188,10 +190,10 @@ namespace OrderFlowII.IntegrationTests
 
         [Theory]
         [MemberData(nameof(InvalidOrders))]
-        public async Task CreateOrder_WithInvalidData_Returns400(string scanrioName , OrderRequest request)
+        public async Task CreateOrder_WithInvalidData_Returns400(string scanrioName, OrderRequest request)
         {
             var response = await _client.PostAsJsonAsync("/api/order", request);
-           
+
 
 
             Assert.True(
@@ -208,7 +210,7 @@ namespace OrderFlowII.IntegrationTests
 
             var response = await _client.PostAsync("/api/order", content);
 
-            Assert.Equal( HttpStatusCode.BadRequest, response.StatusCode);
+            Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
 
 

@@ -1,6 +1,9 @@
 ﻿using Infrastructure;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Respawn;
+using Respawn.Graph;
 using Testcontainers.MsSql;
 
 namespace OrderFlowII.IntegrationTests
@@ -17,6 +20,7 @@ namespace OrderFlowII.IntegrationTests
 
         public HttpClient client { get; set; } = null;
 
+        private Respawner _respawner = default;
 
         public async Task InitializeAsync()
         {
@@ -28,7 +32,34 @@ namespace OrderFlowII.IntegrationTests
             var db = scope.ServiceProvider.GetRequiredService<OrderDbContext>();
             await db.Database.MigrateAsync();
 
+            await using var connection =
+            new SqlConnection(ConnectionString);
+
+            await connection.OpenAsync();
+
+            _respawner = await Respawner.CreateAsync(connection, new RespawnerOptions
+            {
+                DbAdapter = DbAdapter.SqlServer,
+
+                TablesToIgnore = new Table[]
+              {
+                    "__EFMigrationsHistory"
+              }
+            });
+
         }
+
+
+        public async Task ResetDatabaseAsync()
+        {
+            await using var connection =
+                new SqlConnection(ConnectionString);
+
+            await connection.OpenAsync();
+
+            await _respawner.ResetAsync(connection);
+        }
+
         public async Task DisposeAsync()
         {
             await _sqlServer.DisposeAsync();
