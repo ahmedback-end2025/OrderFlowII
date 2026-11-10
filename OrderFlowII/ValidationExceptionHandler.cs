@@ -20,6 +20,43 @@ public sealed class ValidationExceptionHandler : IExceptionHandler
         Exception exception,
         CancellationToken cancellationToken)
     {
+        if (exception is KeyNotFoundException)
+        {
+            _logger.LogWarning(exception, "Resource not found");
+
+            var problemDetails1 = new ProblemDetails
+            {
+                Status = StatusCodes.Status404NotFound,
+                Title = "Resource not found",
+                Detail = exception.Message
+            };
+
+            httpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+
+            await httpContext.Response.WriteAsJsonAsync(
+                problemDetails1,
+                cancellationToken);
+
+            return true;
+        }
+
+
+        if (exception is InvalidOperationException)
+        {
+            httpContext.Response.StatusCode = StatusCodes.Status409Conflict;
+
+            await httpContext.Response.WriteAsJsonAsync(new ProblemDetails
+            {
+                Status = StatusCodes.Status409Conflict,
+                Title = "Operation conflict",
+                Detail = exception.Message
+            }, cancellationToken);
+
+            return true;
+        }
+
+
+
         if (exception is not ValidationException validationException)
             return false;
 
