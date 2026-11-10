@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace OrderFlowII.IntegrationTests
 {
     [Collection("Api")]
-    public class CreateOrderEndPointTests
+    public class CreateOrderEndPointTests:IntegrationTestBase
     {
-        private HttpClient _client = null;
-        public CreateOrderEndPointTests(SqlServerContainerFixture fixture)
+        //private HttpClient _client = null;
+        public CreateOrderEndPointTests(SqlServerContainerFixture fixture):base(fixture)
         {
-            _client = fixture.client;
+            
         }
 
         public static object ValidOrder() => new
