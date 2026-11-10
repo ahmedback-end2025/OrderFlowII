@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -9,6 +10,21 @@ using System.Threading.Tasks;
 
 namespace Application.Feature.Orders.Queries.GetAllOrders
 {
+    public class GetAllOrdersQueryValidator
+    : AbstractValidator<GetAllOrdersQuery>
+    {
+        public GetAllOrdersQueryValidator()
+        {
+            RuleFor(x => x.PageNumber)
+                .GreaterThan(0)
+                .WithMessage("Page number must be greater than zero.");
+
+            RuleFor(x => x.PageSize)
+                .GreaterThan(0)
+                .WithMessage("Page size must be greater than zero.");
+        }
+    }
+
     public class GetAllHandler : IRequestHandler<GetAllOrdersQuery, List<OrderDto>>
     {
         private readonly IApplicationDbContext _context;

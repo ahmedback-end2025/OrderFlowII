@@ -36,7 +36,7 @@ namespace OrderFlowII.IntegrationTests
             id.Should().NotBe(Guid.Empty);
 
             var getresponse = await _client.GetAsync($"/api/order/{id}");
-            getresponse.Should().Be(HttpStatusCode.OK);
+            getresponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             var order = await getresponse.Content.ReadFromJsonAsync<OrderResponse>();
 
@@ -66,7 +66,7 @@ namespace OrderFlowII.IntegrationTests
         {
 
             var getresponse = await _client.GetAsync($"/api/order/{Guid.NewGuid()}");
-            getresponse.Should().Be(HttpStatusCode.NotFound);
+            getresponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
         }
 
@@ -75,7 +75,7 @@ namespace OrderFlowII.IntegrationTests
         public async Task GetOrderById_WithInvalidGuid_Returns404()
         {
             var getresponse = await _client.GetAsync($"/api/order/not-a-guid");
-            getresponse.Should().Be(HttpStatusCode.NotFound);
+            getresponse.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
 

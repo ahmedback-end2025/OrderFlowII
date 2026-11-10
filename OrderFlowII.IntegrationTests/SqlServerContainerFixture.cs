@@ -32,6 +32,7 @@ namespace OrderFlowII.IntegrationTests
             var db = scope.ServiceProvider.GetRequiredService<OrderDbContext>();
             await db.Database.MigrateAsync();
 
+            //respawner
             await using var connection =
             new SqlConnection(ConnectionString);
 

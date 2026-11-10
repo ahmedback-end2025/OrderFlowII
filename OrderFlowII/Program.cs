@@ -91,9 +91,11 @@ public class Program
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            builder.Services.AddExceptionHandler<ValidationExceptionHandler>();
+            builder.Services.AddProblemDetails();
+
             var app = builder.Build();
 
-            
             app.UseSerilogRequestLogging();
 
             if (app.Environment.IsDevelopment())
@@ -102,6 +104,7 @@ public class Program
                 app.UseSwaggerUI();
             }
 
+            app.UseExceptionHandler();
             app.UseHttpsRedirection();
             app.UseAuthorization();
 
